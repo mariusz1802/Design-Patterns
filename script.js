@@ -1,19 +1,31 @@
-function Person(name, age, isDeveloper) {
-  this.name = name;
-  this.age = age;
-  this.isDeveloper = isDeveloper || false;
-}
+//IIFE to create a private variable , counter
 
-Person.prototype.writeCode = function () {
-  console.log(
-    this.isDeveloper
-      ? "This person does write code"
-      : "This person does not write code"
-  );
-};
+let collection = (function () {
+  //private members
+  let objects = [];
+  //public members
+  return {
+    addObject: function (object) {
+      objects.push(object);
+    },
+    removeObject: function (object) {
+      let index = objects.indexOf(object);
+      if (index >= 0) {
+        objects.splice(index, 1);
+      }
+    },
+    getObjects: function () {
+      return JSON.parse(JSON.stringify(objects));
+    },
+  };
+})();
 
-let person1 = new Person("Aneta", 36, false);
-let person2 = new Person("Mariusz", 31, true);
+collection.addObject("Manio");
+collection.addObject("Janik");
+collection.addObject("Kamila");
 
-person1.writeCode();
-person2.writeCode();
+console.log(collection.getObjects());
+
+collection.removeObject("Janik");
+
+console.log(collection.getObjects());
