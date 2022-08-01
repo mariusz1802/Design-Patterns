@@ -1,33 +1,19 @@
-// Methods of create objects
-let instance = {};
-let instance1 = Object.create(Object.prototype);
-let instance2 = new Object();
+function Person(name, age, isDeveloper) {
+  this.name = name;
+  this.age = age;
+  this.isDeveloper = isDeveloper || false;
+}
 
-// dot notation
-instance.key = "maniolo";
-// square brackets notation
-instance["key1"] = "manillo";
+Person.prototype.writeCode = function () {
+  console.log(
+    this.isDeveloper
+      ? "This person does write code"
+      : "This person does not write code"
+  );
+};
 
-// supported since ES5
-//setting a sigle porpert using Object.defineProperty
-Object.defineProperty(instance, "key2", {
-  value: "key is value",
-  writable: true,
-  enumerable: true,
-  configurable: true,
-});
+let person1 = new Person("Aneta", 36, false);
+let person2 = new Person("Mariusz", 31, true);
 
-//Setting multple properties using Object.defineProperties
-
-Object.defineProperties(instance, {
-  firstKey: {
-    value: "first key value",
-    writable: true,
-  },
-  secondKey: {
-    value: "second key's value",
-    writable: false,
-  },
-});
-
-console.log(instance);
+person1.writeCode();
+person2.writeCode();
