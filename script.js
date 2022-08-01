@@ -1,31 +1,37 @@
-//IIFE to create a private variable , counter
+//we write entire object logic as private members and
+//expose an annonymous object which maps members we wish to reveal
+//to their corresponding public members
 
-let collection = (function () {
+let namesCollection = (function () {
   //private members
   let objects = [];
-  //public members
+  function addObject(object) {
+    objects.push(object);
+  }
+
+  function removeObject(object) {
+    const index = objects.indexOf(object);
+    if (index >= 0) {
+      objects.splice(index, 1);
+    }
+  }
+  function getObjects() {
+    return JSON.parse(JSON.stringify(objects));
+  }
+
   return {
-    addObject: function (object) {
-      objects.push(object);
-    },
-    removeObject: function (object) {
-      let index = objects.indexOf(object);
-      if (index >= 0) {
-        objects.splice(index, 1);
-      }
-    },
-    getObjects: function () {
-      return JSON.parse(JSON.stringify(objects));
-    },
+    addName: addObject,
+    removeName: removeObject,
+    getNames: getObjects,
   };
 })();
 
-collection.addObject("Manio");
-collection.addObject("Janik");
-collection.addObject("Kamila");
+namesCollection.addObject("Manio");
+namesCollection.addObject("Janik");
+namesCollection.addObject("Kamila");
 
-console.log(collection.getObjects());
+console.log(namesCollection.getObjects());
 
-collection.removeObject("Janik");
+namesCollection.removeObject("Janik");
 
-console.log(collection.getObjects());
+console.log(namesCollection.getObjects());
