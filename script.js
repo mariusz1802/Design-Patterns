@@ -1,37 +1,26 @@
-//we write entire object logic as private members and
-//expose an annonymous object which maps members we wish to reveal
-//to their corresponding public members
+let singleton = (function () {
+  //private singleton value which gets initialized only once
+  let config;
 
-let namesCollection = (function () {
-  //private members
-  let objects = [];
-  function addObject(object) {
-    objects.push(object);
+  function initializeConfiguration(values) {
+    this.randomNumber = Math.random();
+    values = values || {};
+    this.number = values.number || 5;
+    this.size = values.size || 10;
   }
-
-  function removeObject(object) {
-    const index = objects.indexOf(object);
-    if (index >= 0) {
-      objects.splice(index, 1);
-    }
-  }
-  function getObjects() {
-    return JSON.parse(JSON.stringify(objects));
-  }
-
+  //export the centralized method for retrieving the singleton values
   return {
-    addName: addObject,
-    removeName: removeObject,
-    getNames: getObjects,
+    getConfig: function (values) {
+      //initialize the singleton value only once
+      if (config === undefined) {
+        config = new initializeConfiguration(values);
+      }
+
+      return config;
+    },
   };
 })();
 
-namesCollection.addObject("Manio");
-namesCollection.addObject("Janik");
-namesCollection.addObject("Kamila");
+let configObject = singleton.getConfig({ size: 8 });
 
-console.log(namesCollection.getObjects());
-
-namesCollection.removeObject("Janik");
-
-console.log(namesCollection.getObjects());
+let configObject1 = singleton.getConfig({ number: 9 });
