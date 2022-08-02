@@ -1,26 +1,49 @@
-let singleton = (function () {
-  //private singleton value which gets initialized only once
-  let config;
+// Null Object Pattern
 
-  function initializeConfiguration(values) {
-    this.randomNumber = Math.random();
-    values = values || {};
-    this.number = values.number || 5;
-    this.size = values.size || 10;
+class User {
+  constructor(id, name) {
+    this.id = id;
+    this.name = name;
   }
-  //export the centralized method for retrieving the singleton values
-  return {
-    getConfig: function (values) {
-      //initialize the singleton value only once
-      if (config === undefined) {
-        config = new initializeConfiguration(values);
-      }
 
-      return config;
-    },
-  };
-})();
+  hasAccess() {
+    return false;
+  }
+}
 
-let configObject = singleton.getConfig({ size: 8 });
+//We create null user class
+class NullUser {
+  constructor() {
+    this.id = -1;
+    this.name = "Guest";
+  }
 
-let configObject1 = singleton.getConfig({ number: 9 });
+  hasAccess() {
+    return this.name === "Bob";
+  }
+}
+
+const users = [new User(1, "Bob"), new User(2, "John")];
+
+function getUser(id) {
+  const user = users.find((user) => user.id === id);
+  if (user === null) {
+    return new NullUser();
+  } else {
+    return user;
+  }
+}
+
+function printUser(id) {
+  const user = getUser(id);
+
+  console.log("Hello " + user.name);
+
+  if (user.hasAccess()) {
+    console.log("You have access");
+  } else {
+    console.log("You are not allowed here");
+  }
+}
+
+printUser(1);
