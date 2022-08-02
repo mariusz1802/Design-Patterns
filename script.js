@@ -1,49 +1,19 @@
-// Null Object Pattern
+//Builder Pattern
+
+class Adress {
+  constructor(zip, street) {
+    this.zip = zip;
+    this.street = street;
+  }
+}
 
 class User {
-  constructor(id, name) {
-    this.id = id;
+  constructor(name, { age, phone, address }) {
     this.name = name;
-  }
-
-  hasAccess() {
-    return false;
-  }
-}
-
-//We create null user class
-class NullUser {
-  constructor() {
-    this.id = -1;
-    this.name = "Guest";
-  }
-
-  hasAccess() {
-    return this.name === "Bob";
+    this.age = age;
+    this.phone = phone;
+    this.address = address;
   }
 }
 
-const users = [new User(1, "Bob"), new User(2, "John")];
-
-function getUser(id) {
-  const user = users.find((user) => user.id === id);
-  if (user === null) {
-    return new NullUser();
-  } else {
-    return user;
-  }
-}
-
-function printUser(id) {
-  const user = getUser(id);
-
-  console.log("Hello " + user.name);
-
-  if (user.hasAccess()) {
-    console.log("You have access");
-  } else {
-    console.log("You are not allowed here");
-  }
-}
-
-printUser(1);
+let user = new User("Bob", { age: 10 });
